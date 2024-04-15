@@ -19,8 +19,17 @@ namespace EmailSenderProgram
             Console.WriteLine("Send Welcomemail");
             bool areAllEmailsSent = SendWelcomeEmailWorker(customers);
 
+#if DEBUG
             Console.WriteLine("Send Comebackmail");
             areAllEmailsSent = SendComebackEmailWorker(customers, "EOComebackToUs");
+#else
+            //Every Sunday run Comeback mail
+            if (DateTime.Now.DayOfWeek.Equals(DayOfWeek.Sunday))
+            {
+                Console.WriteLine("Send Comebackmail");
+                areAllEmailsSent = SendComebackEmailWorker(customers, "EOComebackToUs");
+            }
+#endif
 
             if (areAllEmailsSent)
             {
